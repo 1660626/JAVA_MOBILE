@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity implements MainCallbacks {
     public void onMsgFromFragToMain(String sender, String strValue, User user) {
         if (sender.equals("B-FRAG")) {
             try {
-                
+                fragment_1.onClick(strValue);
             } catch (Exception e) {
                 Log.e("ERROR", "onStrFromFragToMain" + e.getMessage());
             }

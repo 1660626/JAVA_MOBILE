@@ -30,13 +30,4 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linear_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        tools:visibility="visible">
-
-    </LinearLayout>
 </FrameLayout>

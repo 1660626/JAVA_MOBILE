@@ -5,20 +5,23 @@ import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
-public class Fragment1 extends Fragment  {
+public class Fragment1 extends Fragment implements ItemClickListener {
     MainActivity main;
     Context context = null;
     ArrayList<User> dsUser;
@@ -27,6 +30,8 @@ public class Fragment1 extends Fragment  {
     ListView listviewUser;
     int position = 0;
     View view;
+
+
     public static Fragment1 newInstance(String strArg) {
         Fragment1 fragment = new Fragment1();
         Bundle args = new Bundle();
@@ -89,19 +94,13 @@ public class Fragment1 extends Fragment  {
         dsUser.add(new User(false, R.drawable._user_002, 4.9, "A2_1234", "Lê Văn B", "A012"));
         dsUser.add(new User(false, R.drawable._user_003, 6.8, "A9_1898", "Nguyễn Thị C", "A013"));
         dsUser.add(new User(false, R.drawable._user_004, 3.3, "A5_1456", "Lý Văn D", "A014"));
-        dsUser.add(new User(false, R.drawable._user_004, 7.8, "A9_1898", "Đinh Cao E", "A012"));
-        dsUser.add(new User(false, R.drawable._user_004, 5.7, "A1_8765", "Đinh Thị F", "A011"));
-        dsUser.add(new User(false, R.drawable._user_001, 9.3, "A7_1234", "Nguyễn Văn A", "A011"));
-        dsUser.add(new User(false, R.drawable._user_002, 4.9, "A2_1234", "Lê Văn B", "A012"));
-        dsUser.add(new User(false, R.drawable._user_003, 6.8, "A9_1898", "Nguyễn Thị C", "A013"));
-        dsUser.add(new User(false, R.drawable._user_004, 3.3, "A5_1456", "Lý Văn D", "A014"));
-        dsUser.add(new User(false, R.drawable._user_004, 7.8, "A9_1898", "Đinh Cao E", "A012"));
-        dsUser.add(new User(false, R.drawable._user_004, 5.7, "A1_8765", "Đinh Thị F", "A011"));
+        dsUser.add(new User(false, R.drawable._user_005, 7.8, "A9_1898", "Đinh Cao E", "A012"));
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment1, container, false);
+        view = inflater.inflate(R.layout.fragment1, container, false);
         listviewUser = (ListView) view.findViewById(R.id.listviewUser);
 
         listviewUser.setBackgroundColor(Color.parseColor("#ffccddff"));
@@ -111,19 +110,66 @@ public class Fragment1 extends Fragment  {
         userAdapter.notifyDataSetChanged();
         listviewUser.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                position=i;
-                dsUser.get(i).setHienthi(false);
-                checkButton(i);
-                view.setBackgroundColor(Color.LTGRAY);
-                main.onMsgFromFragToMain("A-FRAG", "A selected row=" + i, dsUser.get(i));
+            public void onItemClick(AdapterView<?> adapterView, View view1, int i, long l) {
+                dsUser.get(position).setHienthi(false);
+
+                listviewUser.getChildAt(position).setBackgroundColor(Color.WHITE);
+                position = i;
+                dsUser.get(i).setHienthi(true);
                 TextView txtShowMSSV = (TextView) getActivity().findViewById(R.id.txtShowMSSV);
-                txtShowMSSV.setText(dsUser.get(i).getMSSV());
-                userAdapter.notifyDataSetChanged();
+
+                txtShowMSSV.setText(dsUser.get(position).getMSSV() + "");
+                checkButton(position);
+                listviewUser.getChildAt(position).setBackgroundColor(R.drawable.item_state_normal);
+
+                main.onMsgFromFragToMain("A-FRAG", "A selected row=" + position, dsUser.get(position));
             }
         });
         return view;
     }
 
+    void setPosition(int i) {
+        dsUser.get(i).setHienthi(true);
+        TextView txtShowMSSV = (TextView) getActivity().findViewById(R.id.txtShowMSSV);
 
+        txtShowMSSV.setText(dsUser.get(i).getMSSV() + "");
+        checkButton(i);
+
+        listviewUser.getChildAt(i).setBackgroundColor(R.drawable.item_state_normal);
+
+        main.onMsgFromFragToMain("A-FRAG", "A selected row=" + i, dsUser.get(i));
+
+
+    }
+
+    @Override
+    public void onClick(String btn) {
+        if (btn.equals("first")) {
+            dsUser.get(position).setHienthi(false);
+            listviewUser.getChildAt(position).setBackgroundColor(Color.WHITE);
+            position = 0;
+            setPosition(position);
+
+        }
+        if (btn.equals("last")) {
+            dsUser.get(position).setHienthi(false);
+            listviewUser.getChildAt(position).setBackgroundColor(Color.WHITE);
+
+            position = dsUser.size() - 1;
+            setPosition(position);
+        }
+        if (btn.equals("next")) {
+            dsUser.get(position).setHienthi(false);
+            listviewUser.getChildAt(position).setBackgroundColor(Color.WHITE);
+
+            position = position + 1;
+            setPosition(position);
+        }
+        if (btn.equals("pre")) {
+            dsUser.get(position).setHienthi(false);
+            listviewUser.getChildAt(position).setBackgroundColor(Color.WHITE);
+            position = position - 1;
+            setPosition(position);
+        }
+    }
 }

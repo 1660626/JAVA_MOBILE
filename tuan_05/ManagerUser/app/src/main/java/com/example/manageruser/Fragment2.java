@@ -41,15 +41,45 @@ public class Fragment2 extends Fragment implements FragmentCallbacks {
         btnLast = (Button) view.findViewById(R.id.btnLast);
         btnNext = (Button) view.findViewById(R.id.btnNext);
         btnPre = (Button) view.findViewById(R.id.btnPre);
+
         btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int id = view.getId();
                 if (id == R.id.btnFirst) {
-                    main.onMsgFromFragToMain("B-FRAG", "first",null);
+                    main.onMsgFromFragToMain("B-FRAG", "first", null);
                 }
             }
         });
+
+        btnLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int id = view.getId();
+                if (id == R.id.btnLast) {
+                    main.onMsgFromFragToMain("B-FRAG", "last", null);
+                }
+            }
+        });
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int id = view.getId();
+                if (id == R.id.btnNext) {
+                    main.onMsgFromFragToMain("B-FRAG", "next", null);
+                }
+            }
+        });
+        btnPre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int id = view.getId();
+                if (id == R.id.btnPre) {
+                    main.onMsgFromFragToMain("B-FRAG", "pre", null);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -66,4 +96,6 @@ public class Fragment2 extends Fragment implements FragmentCallbacks {
         txtMSSV.setText(user.getMSSV());
 
     }
+
+
 }
